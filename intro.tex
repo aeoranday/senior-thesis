@@ -1,0 +1,11 @@
+Dark matter constitutes 85\% of the matter in our Universe and was made evident by observations on galaxy formation, gravitational lensing, and the cosmic microwave background \cite{DM_Hist}.
+However, detecting dark matter experimentally is exceedingly difficult with particle physics detectors.
+These particles are suspected to be weakly interacting \cite{1TDM_DataAnalysis} such that any detection attempt would need to be sensitive to recoils at keV levels of energy.
+
+\par The XENON1T detector operated as the most sensitive dark matter detector \cite{Xenon1t}, and the soon-to-be-active XENONnT detector plans to overtake that title \cite{nT_Projection}.
+In these detectors, there are two important elements that need to be reconstructed: energy and position.
+By reconstructing these key elements, we are able to accept or reject numerous observations if the reconstructed position is within the detector's fiducial volume and if the reconstructed energy is within a rejection threshold \cite{1TDM_DataAnalysis}.
+
+\par Previous machine learning implementations for position reconstruction perform well enough \cite{Bart}, but still run into issues with reconstruction outside the bounds of the detector as well as having an inward reconstruction bias.
+Finding the type of machine learning algorithm that is the most appropriate for these problems is essential for the best use of the detector's fiducial volume.
+This project produced the first application of graph convolutional neural networks (GCNNs) for position reconstruction in the dark-matter field, and one of the first applications of a GCNN for use in regression.
