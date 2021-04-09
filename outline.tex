@@ -1,0 +1,147 @@
+\batchmode
+\documentclass[12pt]{article}
+\usepackage{geometry, indentfirst, setspace, fancyhdr}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\geometry{letterpaper, margin=1in, headheight=15pt}
+\onehalfspacing
+
+\author{}
+\date{}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Alex Oranday \qquad 04/09/2021}
+\lhead{Senior Thesis Outline}
+
+\begin{document}
+	\begin{itemize}
+		\item \textbf{Introduce Dark Matter and XENON Collaboration \& Experiment}
+			\begin{itemize}
+				\item Give details regarding the physics, historical observations of dark matter, and what it means if we successfully make a direct detection
+					\begin{itemize}
+						\item Effects of dark matter were observed through gravitational lensing, cosmic microwave background, and galaxy formation
+						\item Dark matter is difficult to detect outside of its large scale gravitational effects
+						\item Requires keV sensitivity if we hope to make a direct detection of it
+						\item Making a direct detection allows us to learn the mass and match this to theory
+					\end{itemize}
+				\item Give details on what the XENON collab. and experiment are.
+					\begin{itemize}
+						\item Detector is a dual phase TPC using 1 ton of xenon
+						\item Located at LNGS
+						\item 2 science runs (caused by earthquake)
+						\item 258 photomultiplier tubes
+						\item ~1 meter diameter
+						\item Most sensitive dark matter direct detection experiment (soon to be overcome by its successor XENONnT)
+						\item What is the fiducial volume
+							\begin{itemize}
+								\item Cover where it is (plot)
+								\item Cover how big it is (exact volume)
+								\item Cover why it is there (volume of most radio-purity and therefore the most confident)
+							\end{itemize}
+					\end{itemize}
+			\end{itemize}
+		\item \textbf{Introduce observations from XENON1T and project idea}
+			\begin{itemize}
+				\item Example hit pattern from simulation and/or experiment
+					\begin{itemize}
+						\item Simulation can show the true position of an event
+						\item Experiment can show noise/background that is difficult to overcome
+					\end{itemize}
+				\item What is position reconstruction, why is it important
+					\begin{itemize}
+						\item Based on the signal seen by the photomultiplier tubes, we're trying to figure out where an event originated from
+						\item Allows for quick removal of data that is outside the fiducial volume of the detector
+					\end{itemize}
+				\item What are the old position reconstruction algorithms
+					\begin{itemize}
+						\item Multi-Layer Perceptron
+						\item Charged Weighted Sum
+						\item Max PMT
+						\item Problems with these were accuracy and reconstructing positions outside the detector
+					\end{itemize}
+				\item Why is it difficult to achieve accurate reconstructions
+					\begin{itemize}
+						\item Difficult for the machine to learn that there is a wall to the detector
+						\item There is less information given the to PMTs that are near the wall of the detector
+						\item PMTs will break at some point during the science run, so we'll start to receive less information
+						\item Each event is not perfect and contains background events that are not easy to filter out
+					\end{itemize}
+			\end{itemize}
+		\item \textbf{What is a Neural Network, a Convolutional Neural Network, and a Graph Convolutional Neural Network}
+			\begin{itemize}
+				\item Explain the idea of what a neural network is
+					\begin{itemize}
+						\item How it came about as an analogy to animal brains and the neurons in them
+						\item How it can be useful to our problem as shown by the Multi-Layer Perceptron
+					\end{itemize}
+				\item Explain what a convolutional neural network is and why we can't use it
+					\begin{itemize}
+						\item Convolutional neural networks have generally been applied to images
+						\item For input, they require data in a rectangular format, such as an image matrix where each pixel is a value in a matrix
+						\item They are able to preserve locality of pixels when trying to learn about the image
+						\item Our data cannot easily be made into a rectangular format; there is no analogous image matrix for out data
+						\item How can be preserve locality of PMTs like a convolutional neural network does?
+					\end{itemize}
+				\item Explain what a graph convolutional neural network is
+					\begin{itemize}
+						\item Makes use of a graph data structure instead of rectangular data structures, which is a format any dataset can use
+						\item Give a simple example (4-5 nodes) of how a graph convolutional neural network works
+						\item They have mainly been used for classification, but we will be using it for regression
+						\item Our PMTs are the nodes in the graph
+						\item These nodes take the amount of light seen by each PMT for an event as a feature
+						\item The edges between nodes preserve the locality if we do it correctly
+					\end{itemize}
+				\item Explain how our approach to a graph convolutional neural network is
+					\begin{itemize}
+						\item Show the graph structures we considered and chose
+						\item Show the network structure that we chose
+						\item Came to this network structure based on the successful convolutional neural networks
+					\end{itemize}
+			\end{itemize}
+		\item \textbf{Simulation Data}
+			\begin{itemize}
+				\item Optical Simulation
+					\begin{itemize}
+						\item 989,875 events: 791,900 training, 197,975 validation
+						\item 0.8:0.2 :: training:validation
+						\item ~1,000 photons were events
+						\item True position of events are a random, uniform distribution within the detector
+						\item All PMTs are working
+						\item There are no background events, only the main signal is present
+					\end{itemize}
+			\end{itemize}
+		\item \textbf{Results}
+			\begin{itemize}
+				\item Many plots of the results of our network on the optical simulation
+					\begin{itemize}
+						\item Resolution histograms for $x$, $y$, and $R$
+						\item True positions of events that were reconstructed greater than 1 cm away
+						\item 2D resolution histogram
+						\item Histogram of poorly reconstructed radius and the true radius
+					\end{itemize}
+				\item Identify where it succeeded and where it failed
+					\begin{itemize}
+						\item Success: All events within the detector
+						\item Success: Did not normalize the simulation data before inputting
+						\item Success: Outperforms a Multi-Layer Perceptron with similar count of trainable parameters
+						\item Failure: Still produced positions that were greater than 1 cm away from the true position
+						\item Failure: These poor position reconstructions are primarily along the wall and is the same as problem as the Multi-Layer Perceptron
+					\end{itemize}
+			\end{itemize}
+		\item \textbf{Conclusions \& Future Work}
+			\begin{itemize}
+				\item Can we address these failures?
+					\begin{itemize}
+						\item We think that a graph convolutional neural network is not the best answer
+						\item A graph neural network in the broader sense could still perform better
+					\end{itemize}
+				\item Should graph neural networks see use in other experiments
+					\begin{itemize}
+						\item This is one of the earliest applications of a graph convolutional neural network for regression in particle physics, and it did well
+						\item Graph Neural Networks have a place in particle physics for detectors with awkward data structures
+						\item The broader graph neural networks can and still should be researched for their applicability
+						\item Still possible to research what the most optimal graph structure is for a given detector
+					\end{itemize}
+			\end{itemize}
+	\end{itemize}
+\end{document}
