@@ -50,12 +50,31 @@ The design of the graph convolutional neural network (GCNN) came by considering 
 The graph convolution layer that we use and that was proposed by Kipf and Welling propagates the values of nodes according to the edges \cite{GCNN_Kipf}.
 The value of connected nodes will increase according to the values of the connected nodes while nodes that are disconnected will see no change.
 The exact propagation rule is given by the equation:
-\[ H^{(l+1)} = \sigma\left( \tilde{D}^{-1/2} \tilde{A} \tilde{D}^{-1/2} H^{(l)} W^{(l)} \right) \]
-where $H^{(0)}$ will be our initial input signal, $\tilde{A}$ and $\tilde{D}$ are respectively modified adjacency and modified degree matrices, $W^{(l)}$ is the trainable weights matrix for the $l$\textsuperscript{th} layer, and $\sigma(\cdot)$ is an activation function \cite{GCNN_Kipf}.
+\begin{linenomath}\begin{equation}\label{eq:conv}
+H^{(l+1)} = \sigma\left( \tilde{D}^{-1/2} \tilde{A} \tilde{D}^{-1/2} H^{(l)} W^{(l)} \right)
+\end{equation}\end{linenomath}
+where $H^{(0)}$ will be our initial input signal, $\tilde{A}$ and $\tilde{D}$ are respectively modified, unweighted adjacency and modified degree matrices, $W^{(l)}$ is the trainable weights matrix for the $l$\textsuperscript{th} layer, and $\sigma(\cdot)$ is an activation function \cite{GCNN_Kipf}.
+The modified adjacency and degree matrices are to include self-loops.
+This means that nodes will connect to themselves and propagate values to themselves when passed through the graph convolution layers.
+The modified adjacency and degree matrices take the form:
+\begin{linenomath}\begin{align*}
+	\tilde{A} &= A + I_{N} \\
+	\tilde{D} &= D + I_{N}
+\end{align*}\end{linenomath}
+where $I_{N}$ is a $N \times N$ identity matrix where $N$ is the number of nodes.
 
 \par We considered the PMTs of the XENON1T detector as our nodes and their quantity of light collected as their primary value.
 We also included the $(x,y)$ position of the PMT at the top of the detector as addition values.
-The network structure we used was based off the success of image classifiers, such as AlexNet.
+When translating to equation (\ref{eq:conv}), the matrices take the form:
+\begin{linenomath}\begin{align*}
+	\tilde{A}, \tilde{D} \in \mathbb{R}^{127 \times 127} \\
+	H^{(0)} \in \mathbb{R}^{127 \times 3} \\
+	H^{(1)}, W^{(0)} \in \mathbb{R}^{127 \times w}
+\end{align*}\end{linenomath}
+where $w$ will depend on our choice of network structure.
+We chose to use rectified linear units (ReLU) as our activation function for all layers.
+
+\par With regard to the network structure, we were influenced by the success of image classifiers, such as AlexNet.
 However, convolutional neural networks of this structure and graph convolutional neural networks in general are more often used for classification, while we have a regression problem.
 Our reasoning to use a GCNN for predicting the position of interactions came from being able to encode the local structure of the XENON1T detector into the dataset.
 By treating the nodes of our graph as the PMTs at the top of the detector, we understood that the connections or edges that we put in place would maintain the local structure if done carefully.
