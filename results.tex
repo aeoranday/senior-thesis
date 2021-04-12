@@ -75,14 +75,14 @@ where $X$ and $Y$ are the $x$ and $y$ positions of the reconstructions and the a
 The means and standard deviations produced by our algorithm are shown in Figure \ref{fig:1D_Hist}.
 This too outperformed the state-of-the-art which had standard deviations greater than 3 cm.
 From previous observations of the results of our GCNN, the mean and standard deviation of $\Delta R$ follows suit with what we expect: most of the reconstructions are within 1 cm of the true, simulated position.
-At the same time, the approximately-Gaussian curves of $\Delta X$ and $\Delta Y$ further confirms the positive performance of our GCNN.
+At the same time, the approximately-Gaussian curves of $\Delta X$, $\Delta Y$, and radius difference further confirms the positive performance of our GCNN.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\linewidth]{figures/1D_hist_Delaunay-Prenoise.pdf}
 	\caption{
 	1D histograms of the reconstructed position minus the true positions.
-	There are 100 bins between -2 cm and 2 cm on $\Delta X, \Delta Y$ and 100 bins between 0 cm and 3 cm on $\Delta R$.
-	Both the $\Delta X$ and $\Delta Y$ histograms are near Gaussian curves of the same statistics.
+	There are 100 bins between -2 cm and 2 cm on $\Delta X, \Delta Y, (R_\text{Predicted} - R_\text{True})$ and 100 bins between 0 cm and 3 cm on $\Delta R$.
+	The left three histograms are near Gaussian curves of the same statistics.
 	}
 	\label{fig:1D_Hist}
 \end{figure}
