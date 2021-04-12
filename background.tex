@@ -11,12 +11,22 @@ The XENON1T detector is a dual phase xenon time projection chamber (TPC) located
 It was a requirement for the detector to be sensitive to keV energy levels in order to detect WIMPs, so the detector's placement in LNGS, use of xenon, and water shielding were all necessary components to the experiment \cite{Xenon1t}.
 It contains a fiducial mass of $\sim$1.3 tons of liquid xenon and a fiducial volume with a maximum radius of 42.84 cm \cite{1TDM_DataAnalysis}.
 The detector features 258 photomultiplier tubes (PMTs): 127 on the top array and 121 on the bottom array.
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{figures/opt_sim_hit_989.pdf}
+	\caption{Example simulated hit pattern.
+	Each circle represents a PMT in the top array of the detector.
+	The position of each circle is the real position of the PMT in the detector.
+	The simulation has a true position marked by the red x and created the shown hit pattern.}
+	\label{fig:example_hit}
+\end{wrapfigure}
 \pdfmarkupcomment[markup=Highlight, color=yellow]{There is a constant electric field of 116.7 V/cm that causes electrons to drift towards the liquid-gas interface at the top of the detector, where they are extracted by a stronger electric field and produces a proportional scintillation signal}{Feels very awkward. Also seems close to the introduction of the citation.} \cite{Xenon1t}.
 
 \par An event in the detector occurs when a particle scatters off xenon atoms.
 The recoil energy results in a scintillation and ionization from these xenon atoms.
 The scintillation is observed by the PMTs and regarded as the S1 signal.
 The signal produced by the ionization at the liquid-gas interface is regarded as the S2 signal.
+An example of this signal is shown in Figure \ref{fig:example_hit}.
 Using the light pattern of the S2 signal from the top array of PMTs, we are able to reconstruct the $(x, y)$ position of the event in reference to the plane of the PMTs.
 This process is referred to as \textit{position reconstruction}.
 
