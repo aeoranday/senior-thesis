@@ -1,15 +1,37 @@
 \documentclass[thesis.tex]{subfiles}
 
 \begin{document}
-Dark matter constitutes 85\% of the matter in our Universe and was made evident by observations on galaxy formation, gravitational lensing, and the cosmic microwave background \cite{DM_Hist}.
-However, detecting dark matter experimentally is exceedingly difficult with particle physics detectors.
-These particles are suspected to be weakly interacting \cite{1TDM_DataAnalysis} such that any detection attempt would need to be sensitive to recoils at keV levels of energy.
+Dark matter constitutes 85\% of the matter in our Universe and is through observations on galaxy formation, gravitational lensing, and the cosmic microwave background \cite{DM_Hist}.
+Images such as the Bullet Cluster show the effects of gravitational lensing and presence of dark matter by visualizing the separation of baryonic matter and high mass concentrations.
+Such an image is only made possible through the presence of dark matter.
 
-\par The XENON1T detector operated as the most sensitive dark matter detector \cite{Xenon1t}, and the soon-to-be-active XENONnT detector plans to overtake that title \cite{nT_Projection}.
-In these detectors, there are two important elements that need to be reconstructed: energy and position.
+
+\par However, detecting dark matter experimentally is exceedingly difficult with particle physics detectors.
+They clearly interact with gravitational force, but do not interact with electromagnetic force.
+One candidate, the Weakly Interacting Massive Particle (WIMP), would interact through the electroweak force \cite{DM_Hist}.
+For us to detect WIMPs directly, one would need a detector that is sensitive to electroweak forces at keV levels of energy \cite{DM_Hist}.
+
+\par The XENON1T detector operated at this level of sensitivity as the most sensitive dark matter detector \cite{Xenon1t}, while the newly operating XENONnT detector is currently the most sensitive dark matter detector \cite{nT_Projection}.
+In these detectors, there are two important elements that need to be reconstructed: the energy and the position of particle interactions.
 By reconstructing these key elements, we are able to accept or reject numerous observations if the reconstructed position is within the detector's fiducial volume and if the reconstructed energy is within a rejection threshold \cite{1TDM_DataAnalysis}.
 
-\par Previous machine learning implementations for position reconstruction perform well enough \cite{Bart}, but still run into issues with reconstruction outside the bounds of the detector as well as having an inward reconstruction bias.
-Finding the type of machine learning algorithm that is the most appropriate for these problems is essential for the best use of the detector's fiducial volume.
-This project produced the first application of graph convolutional neural networks (GCNNs) for position reconstruction in the dark-matter field, and one of the first applications of a GCNN for use in regression.
+\par This is made possible by defined fiducial volumes and energy thresholds in XENON1T \cite{1TDM_DataAnalysis}.
+The placement of the fiducial volume is to reject extraneous interactions that take place near the walls of the detector \cite{1TDM_DataAnalysis}.
+The shape of the fiducial volume is shown in Figure \ref{fig:reco-distro} as the purple line \cite{Xe1T-YearExpo}.
+This paper will focus on the use of the fiducial volume and reconstructed positions in XENON1T.
+
+\par The problem of position reconstruction, or \textit{event localization}, is an inverse problem.
+Generally, the data we collect is the result of an event.
+Using this data, we aim to reconstruct the position of the event.
+This reconstructed position can then be used with the fiducial volume to filter the extraneous events.
+Details on the inverse problem for the XENON1T detector are given in Sec. \ref{subsec:Xe1T}.
+
+\par However, we know the limitations of this inverse problem while machines do not.
+All events must take place within the detector and, for a uniform position distribution of events, the reconstructed positions should be uniform as well.
+This is not the case for previous position reconstruction implementations, such as multilayer perceptrons, weighted sum position, and maximum photomultiplier tube (PMT) \cite{Bart}.
+Events are reconstructed outside of the detector, shown by the grey points outside the black line in Figure \ref{fig:reco-distro}, and have an inward reconstruction bias \cite{Bart}.
+
+\par In this paper, we show the novel application of a graph neural network for position reconstruction in XENON1T.
+Specifically, we will make use of a graph convolutional neural network.
+These networks have had little to no recent applications to this type of inverse problem within particle physics and beyond.
 \end{document}
