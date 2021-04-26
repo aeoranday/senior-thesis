@@ -1,28 +1,30 @@
 \input{preamble.tex}
 
 \begin{document}
-	\input{title.tex}
+	\subfile{title.tex}
 	\linenumbers
 	\newpage
-	\tableofcontents
-	\newpage
-	\section{Introduction}
+	\section{Introduction}\label{sec:Intro}
 	\subfile{intro.tex}
 
-	\section{Background}
+	\section{Background}\label{sec:BG}
 	\subfile{background.tex}
 
-	\section{Neural Networks}
+	\section{Neural Networks}\label{sec:NN}
 	\subfile{neural.tex}
 
 
 	% TODO: Remove this newpage after figure placement can be adjusted.
 	\newpage % Added to keep prettiness of figures.
-	\section{Results}
+	\section{Results}\label{sec:Results}
 	\subfile{results.tex}
 
-	\section{Conclusion \& Future Work}
+	\section{Conclusion \& Future Work}\label{sec:Conc}
 	\subfile{conclusion.tex}
+
+	\newpage
+	\section{Appendix A: Graph Convolutional Neural Networks}
+	Place holder.
 
 	\newpage
 	\addcontentsline{toc}{section}{References}

@@ -29,7 +29,7 @@ We are mainly concerned with graph convolutional neural networks (GCNNs) which a
 	}
 	\label{fig:graph_structs}
 \end{figure}
-\subsection{Convolutional Neural Networks}
+\subsection{Convolutional Neural Networks}\label{subsec:CNN}
 A convolutional neural network is a specific kind of neural network that features a convolution layer.
 The input to a CNN typically comes in the form of a matrix where there is a locality between the elements in the matrix.
 The convolution layer makes use of a kernel that takes information from submatrices of the input matrix and summarizes the values within these submatrices.
@@ -48,7 +48,7 @@ Therefore, we would need an algorithm that is capable of making use of datasets 
 	}
 	\label{fig:figures/GCNN_Structure}
 \end{figure}
-\subsection{Graph Convolutional Neural Networks}
+\subsection{Graph Convolutional Neural Networks}\label{subsec:GCNN}
 The design of the graph convolutional neural network (GCNN) came by considering how a convolution could be applied to a graph structured dataset \cite{GCNN_Kipf}.
 The graph convolution layer that we use and that was proposed by Kipf and Welling propagates the values of nodes according to the edges \cite{GCNN_Kipf}.
 The value of connected nodes will increase according to the values of the connected nodes while nodes that are disconnected will see no change.

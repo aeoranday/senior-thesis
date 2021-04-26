@@ -1,7 +1,7 @@
 \documentclass[thesis.tex]{subfiles}
 
 \begin{document}
-\subsection{Dark Matter}
+\subsection{Dark Matter}\label{subsec:DM}
 The effects of dark matter are apparent through a few observations.
 The most notable come from observed galaxy formation, gravitational lensing, and the missing power seen in the cosmic microwave background power spectrum \cite{DM_Hist}.
 Aside from these large scale observations, dark matter is extremely difficult to detect experimentally with no known exact form.
@@ -9,7 +9,7 @@ Current theory introduced two popular candidates: axions and weakly interacting 
 The XENON Collaboration aimed to directly detect WIMPs using the XENON1T experiment.
 The collaboration has moved on to the successor XENONnT, but the topics discussed here will with regard to XENON1T.
 
-\subsection{XENON1T Detector}
+\subsection{XENON1T Detector}\label{subsec:Xe1T}
 The XENON1T detector is a dual phase xenon time projection chamber (TPC) located in the \textit{Laboratori Nazionali del Gran Sasso} (LNGS) in central Italy.
 It was a requirement for the detector to be sensitive to keV energy levels in order to detect WIMPs, so the detector's placement in LNGS, use of xenon, and water shielding were all necessary components to the experiment \cite{Xenon1t}.
 It contains a fiducial mass of $\sim$1.3 tons of liquid xenon and a fiducial volume with a maximum radius of 42.84 cm \cite{1TDM_DataAnalysis}.
@@ -36,7 +36,7 @@ This process is referred to as \textit{position reconstruction}.
 \par Using the reconstructed positions, we're able to filter out terabytes of data by excluding events that are outside the fiducial volume.
 However, implementations of position reconstruction, such as maximum PMT, weighted sum position, multilayer perceptron, have pitfalls of reconstructing outside the detector, being inaccurate, or both \cite{Bart}.
 For us to get accurate results, we want an algorithm to have a standard deviation for the Euclidean distance between reconstructed position and true position to be less than the space between PMTs (0.35 cm).
-\subsection{Machine Learning}
+\subsection{Machine Learning}\label{subsec:ML}
 The maximum PMT and weighted sum position algorithms were two cases that did well to keep reconstructions within the detector walls.
 However, these algorithms did not do well for their overall accuracy.
 One of the initial machine learning algorithms that was applied a neural network.

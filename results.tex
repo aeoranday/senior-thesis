@@ -1,7 +1,7 @@
 \documentclass[thesis.tex]{subfiles}
 
 \begin{document}
-\subsection{During Training}
+\subsection{During Training}\label{subsec:Train}
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.8\linewidth]{figures/del_mse-v-epo_insetted.pdf}
@@ -39,7 +39,7 @@ Our solution was to lower the learning rate at specific epochs based on the perf
 Specifically, the learning rate was lowered at epochs 20, 60, and 150.
 This caused notable dips within Figure \ref{fig:GCNN_Training} and resulted in a much smoother curve after epoch 20.
 However, a better solution would have the learning rate lower based on the model's performance during training instead of milestones set by the attentive user.
-\subsection{Validation Set Performance}
+\subsection{Validation Set Performance}\label{subsec:Valid}
 As previously stated, the two performance metrics we focused on are to have no reconstructions outside the detector and to minimize the number of reconstructions that are 1 cm away from the true position.
 For best practice in machine learning, we focused on the results of the validation set which is made of 197,975 simulated events.
 \begin{figure}[t]
