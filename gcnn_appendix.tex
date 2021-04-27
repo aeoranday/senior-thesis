@@ -1,0 +1,24 @@
+\documentclass[thesis.tex]{subfiles}
+
+\begin{document}
+The exact propagation rule is given by the equation:
+\begin{linenomath}\begin{equation}\label{eq:conv}
+H^{(l+1)} = \sigma\left( \tilde{D}^{-1/2} \tilde{A} \tilde{D}^{-1/2} H^{(l)} W^{(l)} \right)
+\end{equation}\end{linenomath}
+where $H^{(0)}$ will be our initial input signal, $\tilde{A}$ and $\tilde{D}$ are respectively modified, unweighted adjacency and modified degree matrices, $W^{(l)}$ is the trainable weights matrix for the $l$\textsuperscript{th} layer, and $\sigma(\cdot)$ is an activation function \cite{GCNN_Kipf}.
+The modified adjacency and degree matrices are to include self-loops.
+This means that nodes will connect to themselves and propagate values to themselves when passed through the graph convolution layers.
+The modified adjacency and degree matrices take the form:
+\begin{linenomath}\begin{align*}
+	\tilde{A} &= A + I_{N} \\
+	\tilde{D} &= D + I_{N}
+\end{align*}\end{linenomath}
+where $I_{N}$ is a $N \times N$ identity matrix where $N$ is the number of nodes.
+When applied to our problem, the matrices take the form:
+\begin{linenomath}\begin{align*}
+	\tilde{A}, \tilde{D} \in \mathbb{R}^{127 \times 127} \\
+	H^{(0)} \in \mathbb{R}^{127 \times 3} \\
+	H^{(1)}, W^{(0)} \in \mathbb{R}^{127 \times w}
+\end{align*}\end{linenomath}
+where $w$ will depend on our choice of network structure.
+\end{document}
