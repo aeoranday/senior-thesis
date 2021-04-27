@@ -1,14 +1,14 @@
 \documentclass[thesis.tex]{subfiles}
 
 \begin{document}
-We presented one of the first applications of a graph neural network -- more specifically a graph \textit{convolutional} neural network -- in particle physics as well as one of the first regression applications of such a network.
-Our algorithm worked well enough to compete with the state-of-the-art position reconstruction algorithm for XENON1T.
+We presented the novel application of a graph neural network -- more specifically a graph \textit{convolutional} neural network -- in particle physics as well as one of the first regression applications of such a network.
+Our algorithm performed at a standard that is competitive with the state-of-the-art position reconstruction algorithm for XENON1T.
 However, we do not think that this algorithm is the best approach to take in the future.
 We suspect that a broader graph neural network would work better for position reconstruction for the upcoming XENONnT experiment.
 The use of a graph neural network has shown the ability to maintain locality between PMTs, our graph's nodes, but is not attributed to the use of convolutions.
 We believe there is a better approach that can be more specific to the XENON1T detector that does not necessarily use convolutions.
 The problem we realized when applying to experimental data is the overbearing presence of background events.
-\pdfmarkupcomment[markup=Highlight, color=yellow]{The graph convolutions compound the presence of these background events and create more difficulties than initially anticipated.}{I know this isn't discussed before now in the paper, and this isn't something that I researched. This is a result Shixiao came to, if I understood correctly. Should this be presented?}
+At the same time, broken PMTs clearly produce a negative influence on the position reconstruction.
 
 \par We have shown that graph neural networks are applicable to particle physics detectors.
 They are able to preserve the locality of sensors in the detector when necessary for the application.
