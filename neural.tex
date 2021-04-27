@@ -61,6 +61,45 @@ The design of the graph convolutional neural network (GCNN) came by considering 
 The graph convolution layer that we use and that was proposed by Kipf and Welling propagates the values of nodes according to the edges \cite{GCNN_Kipf}.
 The value of connected nodes will increase according to the values of the connected nodes while nodes that are disconnected will see no change.
 This is explained in further detail in Appendix \ref{app:GCNN-Prop}.
+\begin{figure}[t]
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/graph_signal-00.pdf}
+		\caption{}
+		\label{fig:prop-ex-0}
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/graph_signal-01.pdf}
+		\caption{}
+		\label{fig:prop-ex-1}
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/graph_signal-02.pdf}
+		\caption{}
+		\label{fig:prop-ex-2}
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/graph_signal-03.pdf}
+		\caption{}
+		\label{fig:prop-ex-3}
+	\end{subfigure}
+	\caption{
+	Example propagation from graph convolutions.
+	The value immediately next to each node is an attribute of that node and will be passed during propagation.
+	These are passed according to edges that connect each of the nodes.
+	The initial signal is shown in (a), the result after the first propagation in (b), after the second propagation in (c), and after the third propagation in (d).
+	}
+	\label{fig:prop-ex}
+\end{figure}
+
+\par Figure \ref{fig:prop-ex} is a toy example of how a graph convolution layer propagates values.
+The initial value for every node is given in Figure \ref{fig:prop-ex-0}.
+The node will propagate the value of 1 to its neighbors and back to the node itself.
+Since all other nodes have values of 0, there is no change otherwise.
+We would expect to see three nodes with values of 1, as is shown in Figure \ref{fig:prop-ex-1}.
+Continuing the propagation, results in graph in Figure \ref{fig:prop-ex-2} and one step further results in \ref{fig:prop-ex-3}.
+The nodes nearest the initially high value node will also become high in value, while nodes that are further away will have a lesser value.
+Nodes that are completely disconnected will see no changes.
 
 \par We considered the PMTs of the XENON1T detector as our nodes and their quantity of light collected as their primary value.
 We also included the $(x,y)$ position of the PMT at the top of the detector as addition values.
@@ -68,9 +107,9 @@ We chose to use rectified linear units (ReLU) as our activation function for all
 This choice was to create a strict cut off for the wall of the detector.
 The use of exponential linear units would not provide this strict cut off.
 
-\par With regard to the network structure, we were influenced by the success of image classifiers, such as AlexNet.
+\par With regard to the network structure, we were influenced by the success of image classifiers, such as AlexNet \cite{AlexNet}.
 However, convolutional neural networks of this structure and graph convolutional neural networks in general are more often used for classification, while we have a regression problem.
-Our reasoning to use a GCNN for predicting the position of interactions came from being able to encode the local structure of the XENON1T detector into the dataset.
+Our reasoning to use a GCNN for reconstructing the position of interactions came from being able to encode the local structure of the XENON1T detector into the dataset.
 By treating the nodes of our graph as the PMTs at the top of the detector, we understood that the connections or edges that we put in place would maintain the local structure if done carefully.
 We considered several graph structures shown in Figure \ref{fig:graph_structs}.
 We ultimately chose the Delaunay Triangulated graph for it's consistent connection density throughout the graph: only PMTs that are immediately near each other are connected and resulted in most nodes having 6 edges.
