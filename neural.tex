@@ -52,7 +52,6 @@ Therefore, we would need an algorithm that is capable of making use of datasets 
 	The final structure features the signal input layer, two propagation (graph convolution) layers, two fully connected layers, and a final output layer for the $(x,y)$ position of the interaction.
 	Between each layer is a ReLU activation function.
 	There are a total of 57,486 trainable parameters.
-	\\ TODO: Replace the image with a sharper PDF version with less white space between the first propagation layer and the second.
 	}
 	\label{fig:figures/GCNN_Structure}
 \end{figure}
@@ -103,7 +102,12 @@ Nodes that are completely disconnected will see no changes.
 
 \par We considered the PMTs of the XENON1T detector as our nodes and their quantity of light collected as their primary value.
 We also included the $(x,y)$ position of the PMT at the top of the detector as addition values.
+These positions are intended to provide additional weighting when learning, but the quantity of light collected will be the main factor in reconstructing the positions of events.
 We chose to use rectified linear units (ReLU) as our activation function for all layers.
+This function is defined as:
+\begin{equation}
+	\text{ReLU}\left( x \right) \equiv \text{max}\left(0,\,x\right) .
+\end{equation}
 This choice was to create a strict cut off for the wall of the detector.
 The use of exponential linear units would not provide this strict cut off.
 
