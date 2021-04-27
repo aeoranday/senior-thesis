@@ -50,6 +50,7 @@ As stated in Sec. \ref{subsec:DM}, it was a requirement for the detector to be s
 To meet these requirements, the detector's placement in LNGS, use of xenon, and water shielding all serve to reduce the presence of extraneous signals that would be appear from muons and more radioactive media \cite{Xenon1t}.
 It contains a target of $\sim$1.3 tons of liquid xenon and a fiducial volume with a maximum radius of 42.84 cm \cite{1TDM_DataAnalysis}.
 The detector features 258 photomultiplier tubes (PMTs): 127 on the top array and 121 on the bottom array.
+Over the course of the experiment, these PMTs will break and the signal they would see can no longer be used.
 \begin{wrapfigure}{r}{0.5\textwidth}
 	\centering
 	\includegraphics[width=\linewidth]{figures/opt_sim_hit_989.pdf}
@@ -86,20 +87,9 @@ This is the problem for position reconstruction.
 \end{figure}
 \par Using the reconstructed positions, the data from the experiment can be filtered according to the position relative to the fiducial volume.
 As shown in Figure \ref{fig:reco-distro}, many of these events are reconstructed near and beyond the wall of the detector.
+This can be caused by background events and broken PMTs that will reduce the accuracy of position reconstruction.
+Many of these background events are present along the walls due to the radioactivity in the detector's materials \cite{Xe1T-YearExpo}.
 However, reconstruction of events outside the detector is clearly not possible for this experiment.
 We aim to learn the detector by using a GCNN to minimize these outside reconstructions and minimize the number of reconstructions that are greater than 1 cm away from the true position when applied to simulation.
 At the same time, this will be the novel implementation of a GCNN for regression and in particle physics.
-
-\subsection{Machine Learning}\label{subsec:ML}
-The maximum PMT and weighted sum position algorithms were two cases that did well to keep reconstructions within the detector walls.
-However, these algorithms did not do well for their overall accuracy.
-One of the initial machine learning algorithms that was applied a neural network.
-Recently, this neural network takes the form of a multilayer perceptron.
-These neural networks have performed significantly better in terms of their overall accuracy, but have difficulty keeping the reconstructions within the bounds of the detector.
-It is difficult to encode the detector walls into the neural network while also maintaining their good accuracy.
-This difficulty at the walls is due to the hard cut off of information.
-There are no more PMTs and thus there is no information present to inform the network that nothing is occurring outside the detector.
-At the same time, experimental data will hold many problems.
-The observed S2 signal is not clean, as in background events are present within the S2 signal.
-Over the course of the experiment, PMTs will break and the signal they would see can no longer be used.
 \end{document}
