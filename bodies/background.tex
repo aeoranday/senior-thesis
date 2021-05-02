@@ -62,16 +62,19 @@ Over the course of the experiment, these PMTs will break and the signal they wou
 	The simulation has a true position marked by the red x and created the shown hit pattern.}
 	\label{fig:example_hit}
 \end{wrapfigure}
-\pdfmarkupcomment[markup=Highlight, color=yellow]{There is a constant electric field of 116.7 V/cm that causes electrons to drift towards the liquid-gas interface at the top of the detector, where they are extracted by a stronger electric field and produces a proportional scintillation signal}{Feels very awkward. Also seems close to the introduction of the citation.} \cite{Xenon1t}.
+
+\par There is a constant electric field present within the detector.
+In the liquid xenon phase, the field strength is 116.7 V/cm and guides the electrons upward \cite{Xenon1t}.
+At the liquid-gas interface starts a stronger electric field that is used to extract these electrons and produce a second source of photons.
 
 \par An event in the detector is defined by a particle scattering off xenon atoms.
 The recoiling nuclei of the xenon atoms results in a scintillation and ionization.
 The scintillation is observed by the PMTs and regarded as the S1 signal.
-The signal produced by the ionization at the liquid-gas interface is regarded as the S2 signal.
-An example of this signal is shown in Figure \ref{fig:example_hit}.
+The signal produced by the extracted electron at the liquid-gas interface is regarded as the S2 signal.
+An example of an S2 signal is shown in Figure \ref{fig:example_hit}.
 A diagram of the detector, S1, and S2 are shown in Figure \ref{fig:Xe1T-TPC}.
 The resulting light pattern from the S2 signal is the observation that is used for our inverse problem.
-The inverse problem exactly is to use this light pattern from the top array of PMTs to reconstruct the $(x, y)$ position of the event in reference to the plane of the PMTs.
+Our inverse problem is to use this light pattern from the top array of PMTs to reconstruct the $(x, y)$ position of the event in reference to the plane of the PMTs.
 It is unnecessary to include the depth, or $z$ position, of the event as that is achieved using the time separating the S1 and S2 and the known applied electric field.
 This is the problem for position reconstruction.
 
