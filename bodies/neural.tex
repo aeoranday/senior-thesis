@@ -10,6 +10,30 @@ For this reason, it is relevant for us to try alternative neural networks that h
 
 \par For our problem, the input layer will be the signal seen by the PMTs in the top array of the detector, and the output layer will be the $(x,y)$ position of the interaction.
 We are mainly concerned with graph convolutional neural networks (GCNNs) which are a result of the success with convolutional neural networks (CNNs) \cite{GCNN_Kipf}.
+
+\par An example of a single neuron, both animal and machine, is shown in Figure \ref{fig:neuron-cartoon}.
+For the mathematical model of neuron, $x_i$ represents the values of inputs or something that is perceived by the neuron.
+These inputs are adjusted according to the weights $w_i$ which are learned by the model.
+A final weight that is additive instead of multiplicative is included as $b$.
+Finally, this passed through an activation function.
+There are various potential activation functions that can be used.
+Two of the ones considered for use in this paper are shown in Figure \ref{fig:relu-elu}.
+For a more detailed explanation of neural networks see \cite{neuron-cartoon}.
+\begin{figure}[t]
+	\centering
+	\begin{subfigure}{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/neuron.png}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/neuron_model.jpeg}
+	\end{subfigure}
+	\caption{
+	Analogy between animal neurons and machine neurons. \cite{neuron-cartoon}
+	}
+	\label{fig:neuron-cartoon}
+\end{figure}
+
 \subsection{Convolutional Neural Networks}\label{subsec:CNN}
 A convolutional neural network is a specific kind of neural network that features a convolution layer and a pooling layer \cite{deep-learning}.
 The input to a CNN frequently comes in the form of a matrix where there is a locality between the elements in the matrix \cite{deep-learning}.
