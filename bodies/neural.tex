@@ -1,24 +1,23 @@
 \documentclass[../thesis.tex]{subfiles}
 
 \begin{document}
-Neural networks have become an increasingly relevant part to data analysis, and this is also true for the XENON1T experiment \cite{Bart}.
+Neural networks have become an increasingly relevant part to data analysis, and is also true for the XENON1T experiment \cite{Bart}.
 A neural network is one section of machine learning that is heavily based off the structure of animal brains \cite{deep-learning}.
 Where an animal brain is able to learn by activating specific neurons for thoughts and actions, the neurons in a machine learn in a similar vein by adjusting weights according to how wrong the machine has so far been performing \cite{deep-learning}.
 The exact manner for a neural network to change these weights is done through backpropagation \cite{deep-learning}.
 Backpropagation is influenced by the structure of the neural network, such as the number of neurons, how they are connected between layers, and the activation functions that are used \cite{deep-learning}.
 For this reason, it is relevant for us to try alternative neural networks that have not yet been applied.
 
-\par For our problem, the input layer will be the signal seen by the PMTs in the top array of the detector, and the output layer will be the $(x,y)$ position of the interaction.
-We are mainly concerned with graph convolutional neural networks (GCNNs) which are a result of the success with convolutional neural networks (CNNs) \cite{GCNN_Kipf}.
-
-\par An example of a single neuron, both animal and machine, is shown in Figure \ref{fig:neuron-cartoon}.
-For the mathematical model of neuron, $x_i$ represents the values of inputs or something that is perceived by the neuron.
+\par An example of a single neuron, for both an animal and a machine, is shown in Figure \ref{fig:neuron-cartoon}.
+For the mathematical model of neuron, $x_i$ represents the values of inputs, or a perceived stimulation in the case of an animal.
 These inputs are adjusted according to the weights $w_i$ which are learned by the model.
 A final weight that is additive instead of multiplicative is included as $b$.
-Finally, this passed through an activation function.
-There are various potential activation functions that can be used.
-Two of the ones considered for use in this paper are shown in Figure \ref{fig:relu-elu}.
+Finally, this is passed through an activation function.
+There are various potential activation functions that can be used, of which two are shown in Figure \ref{fig:relu-elu}.
 For a more detailed explanation of neural networks see \cite{neuron-cartoon}.
+
+\par For our problem, the input layer will be the signal seen by the PMTs in the top array of the detector, and the output layer will be the $(x,y)$ position of the interaction.
+We are mainly concerned with graph convolutional neural networks (GCNNs), which were motivated by the success of convolutional neural networks (CNNs) \cite{GCNN_Kipf}.
 \begin{figure}[t]
 	\centering
 	\begin{subfigure}{0.49\textwidth}
@@ -42,6 +41,7 @@ The convolution layer makes use of a kernel that does element multiplication of 
 This is repeated as a scan over the entire matrix.
 In the case of an image, smaller sections of the image pass through this kernel until all of the image is scanned.
 This results in the network learning the important features of the matrix, or image.
+In an image, these features can come as lines separating objects, textures,  or the presence of certain colors.
 
 \par However, the structure of our dataset does not have a form that can be easily made into a matrix.
 The top array of PMTs has a radial formation and symmetry.
@@ -61,7 +61,7 @@ Therefore, we would need an algorithm that is capable of making use of datasets 
 \subsection{Graph Convolutional Neural Networks}\label{subsec:GCNN}
 The design of the graph convolutional neural network (GCNN) came by considering how a convolution could be applied to a graph structured dataset \cite{GCNN_Kipf}.
 The graph convolution layer that we use and that was proposed by Kipf and Welling propagates the values of nodes according to the edges \cite{GCNN_Kipf}.
-The value of connected nodes will increase according to the values of the connected nodes while nodes that are disconnected will see no change.
+The value of a node will increase according to the value of itself and the values of the nodes connected to it, or \textit{neighbors}.
 This is explained in further detail in Appendix \ref{app:GCNN-Prop}.
 \begin{figure}[t]
 	\centering
@@ -97,7 +97,7 @@ This is explained in further detail in Appendix \ref{app:GCNN-Prop}.
 \par Figure \ref{fig:prop-ex} is a toy example of how a graph convolution layer propagates values.
 The initial value for every node is given in Figure \ref{fig:prop-ex-0}.
 The node will propagate the value of 1 to its neighbors and back to the node itself.
-Since all other nodes have values of 0, there is no change otherwise.
+Since all other nodes have values of 0, only this node will have an effect.
 We would expect to see three nodes with values of 1, as is shown in Figure \ref{fig:prop-ex-1}.
 Continuing the propagation, results in graph in Figure \ref{fig:prop-ex-2} and one step further results in \ref{fig:prop-ex-3}.
 The nodes nearest the initially high value node will also become high in value, while nodes that are further away will have a lesser value.
@@ -119,27 +119,36 @@ Nodes that are completely disconnected will see no changes.
 	\label{fig:relu-elu}
 \end{figure}
 \par We considered the PMTs of the XENON1T detector as our nodes and their quantity of light collected as their primary value.
-We also included the $(x,y)$ position of the PMT at the top of the detector as addition values.
-These positions are intended to provide additional weighting when learning, but the quantity of light collected will be the main factor in reconstructing the positions of events.
-We chose to use rectified linear units (ReLU) as our activation function for all layers.
+We also included the $(x,y)$ position of the PMT at the top of the detector as additional values.
+These positions are intended to provide additional weighting when learning, but the event hit pattern will be the main factor in reconstructing the positions of events.
+We chose to use the rectified linear unit (ReLU) as our activation function for all layers.
 This function is defined as:
-\begin{equation}
+\begin{equation} \label{eq:relu}
 	\text{ReLU}\left( x \right) \equiv \text{max}\left(0,\,x\right) .
 \end{equation}
 This choice was to create a strict cut off for the wall of the detector.
-The use of exponential linear units would not provide this strict cut off.
+The use of the exponential linear unit (ELU) would not provide this strict cut off.
+This activation function is defined as:
+\begin{equation} \label{eq:elu}
+	\text{ELU}(x) =
+	\begin{cases}
+		\alpha \left(e^{x} - 1\right), & x < 0 \\
+		x, & x \geq 0
+	\end{cases} .
+\end{equation}
 
 \par With regard to the network structure, we were influenced by the success of image classifiers, such as AlexNet \cite{AlexNet}.
 However, convolutional neural networks of this structure and graph convolutional neural networks in general are more often used for classification, while we have a regression problem.
 
-\par Our reasoning to use a GCNN for reconstructing the position of interactions came from being able to encode the local structure of the XENON1T detector into the dataset.
+\par Our reasoning to use a graph neural network (GNN) for reconstructing the position of interactions came from being able to encode the local structure of the XENON1T detector into the dataset.
 By treating the nodes of our graph as the PMTs at the top of the detector, we understood that the connections or edges that we put in place would maintain the local structure if done carefully.
+We thought the use of these graph convolution layers would aid in maintaining a contrast between high value and low value regions, as was seen in the toy example in Figure \ref{fig:prop-ex}
 
 \par We considered several graph structures shown in Figure \ref{fig:graph_structs}.
 We ultimately chose the Delaunay triangulated graph Figure \ref{fig:del-graph}.
 Delaunay triangulation is a specific triangulation method that makes use of the circumcircles of the triangles it creates.
 These circumcircles are required to not contain the vertex of any other triangle in the set \cite{Delaunay}.
-Therefore, the connected triangles should occur between nearby points and created the triangulation that we expected and chose to use \cite{Delaunay}.
+Therefore, the connected triangles should occur between nearby points and created the triangulation that we hoped for and chose to use \cite{Delaunay}.
 
 \begin{figure}[t]
 	\centering

@@ -13,18 +13,18 @@
 	}
 	\label{fig:bullet-cluster}
 \end{figure}
-The effects of dark matter are apparent through various observations, such as the gravitational lensing within the Bullet Cluster \cite{Bullet}.
+The effects of dark matter are visible through various observations, such as the gravitational lensing within the Bullet Cluster \cite{Bullet}.
 This cluster is the result of the collision between two galaxy clusters.
-The baryonic matter is visible through X-ray images and acts as we'd expect: there is a drag between the two clusters that resulted in the Bullet Cluster's distinct shape \cite{Bullet}.
+The baryonic matter is present as hot gases, visible through X-ray images, and acts as we'd expect: there is a drag between the two clusters that resulted in the Bullet Cluster's distinct shape \cite{Bullet}.
 However, the massive portions of these clusters continue to move past each other as shown by the gravitational lensing map in Figure \ref{fig:bullet-cluster}.
 These results are indicative of both the ``dark'' and weakly interacting nature of dark matter.
 The particles are not visible through electromagnetism, thus receiving the name dark matter.
-The particles have a mass that causes the gravitational lensing.
+The particles have a non-negligible amount of mass that causes the gravitational lensing.
 This upper limit on the related mass and collision cross section is given by Markevitch et al. \cite{Bullet} as:
 \begin{equation} \label{eq:DM-Mass-Lim}
 	\frac{\sigma}{m} < 1 \; \text{cm}^2 \text{g}^{-1}
 \end{equation}
-where $\sigma$ is the collision cross section and $m$ is the particle mass \cite{Bullet}.
+where $\sigma$ is the collision cross section and $m$ is the particle mass.
 A more detailed explanation of how this limit is derived can viewed in \cite{Bullet}.
 
 \par One candidate for dark matter particles is the weakly interacting massive particle (WIMP) \cite{DM_Hist}.
@@ -49,7 +49,7 @@ The collaboration has since built and started commissioning the successor XENONn
 \end{figure}
 The XENON1T detector is a dual phase xenon time projection chamber (TPC) located in the \textit{Laboratori Nazionali del Gran Sasso} (LNGS) in central Italy.
 As stated in Sec. \ref{subsec:DM}, it was a requirement for the detector to be sensitive to keV energy levels in order to detect WIMPs.
-To meet these requirements, the detector's placement in LNGS, use of xenon, and water shielding all serve to reduce the presence of extraneous signals that would be appear from muons and more radioactive media \cite{Xenon1t}.
+To meet these requirements, the detector's placement in LNGS, use of xenon, and presence of water shielding all serve to reduce the presence of extraneous signals that would be appear from muons and more radioactive media \cite{Xenon1t}.
 It contains a target of $\sim$1.3 tons of liquid xenon and a fiducial volume with a maximum radius of 42.84 cm \cite{1TDM_DataAnalysis}.
 The detector features 258 photomultiplier tubes (PMTs): 127 on the top array and 121 on the bottom array.
 Over the course of the experiment, these PMTs will break and the signal they would see can no longer be used.
@@ -65,7 +65,7 @@ Over the course of the experiment, these PMTs will break and the signal they wou
 
 \par There is a constant electric field present within the detector.
 In the liquid xenon phase, the field strength is 116.7 V/cm and guides the electrons upward \cite{Xenon1t}.
-At the liquid-gas interface starts a stronger electric field that is used to extract these electrons and produce a second source of photons.
+At the liquid-gas interface starts a stronger electric field, $E_\text{gas} > 10$ kV/cm, that is used to extract these electrons and produce a second source of photons \cite{Xenon1t}.
 
 \par An event in the detector is defined by a particle scattering off xenon atoms.
 The recoiling nuclei of the xenon atoms results in a scintillation and ionization.
@@ -73,7 +73,8 @@ The scintillation is observed by the PMTs and regarded as the S1 signal.
 The signal produced by the extracted electron at the liquid-gas interface is regarded as the S2 signal.
 An example of an S2 signal is shown in Figure \ref{fig:example_hit}.
 A diagram of the detector, S1, and S2 are shown in Figure \ref{fig:Xe1T-TPC}.
-The resulting light pattern from the S2 signal is the observation that is used for our inverse problem.
+
+\par The resulting light pattern from the S2 signal, or \textit{hit pattern}, is the observation that is used for our inverse problem.
 Our inverse problem is to use this light pattern from the top array of PMTs to reconstruct the $(x, y)$ position of the event in reference to the plane of the PMTs.
 It is unnecessary to include the depth, or $z$ position, of the event as that is achieved using the time separating the S1 and S2 and the known applied electric field.
 This is the problem for position reconstruction.
@@ -95,6 +96,7 @@ As shown in Figure \ref{fig:reco-distro}, many of these events are reconstructed
 This can be caused by background events and broken PMTs that will reduce the accuracy of position reconstruction.
 Many of these background events are present along the walls due to the radioactivity in the detector's materials \cite{Xe1T-YearExpo}.
 However, reconstruction of events outside the detector is clearly not possible for this experiment.
-We aim to learn the detector by using a GCNN to minimize these outside reconstructions and minimize the number of reconstructions that are greater than 1 cm away from the true position when applied to simulation.
+
+\par We aim to learn the detector by using a GCNN to minimize these outside reconstructions and minimize the number of reconstructions that are greater than 1 cm away from the true position when applied to simulation.
 At the same time, this will be the novel implementation of a GCNN for regression and in particle physics.
 \end{document}

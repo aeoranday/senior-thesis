@@ -14,37 +14,26 @@
 	\label{fig:GCNN_Training}
 \end{figure}
 The performance of our algorithm was compared to the current state-of-the-art in XENON1T during training as a benchmark and early warning system.
-If the GCNN did not approach a comparable performance to that of the state-of-the-art swiftly enough, training would typically stagnate and not surpass this benchmark.
+If the GCNN did not approach a comparable performance to that of the state-of-the-art swiftly -- approximately within the first 50 epochs -- training would stagnate and not surpass this benchmark.
 By not performing better here, it was generally indicative that the GCNN would also perform worse when we gave attention to our performance metrics.
-After a few iterations of this, we chose to only look at the performance metrics if the GCNN model produced a lower mean-squared-error during training and would restart training in cases where it was clear that the current iteration would not perform better within a reasonable number of epochs.
-An example of when it was clear a prospective model would not do better is if the mean-squared-error was not below $0.25$ cm\textsuperscript{2} within the first $50$ epochs.
-\begin{wrapfigure}{r}{0.5\textwidth}
-	\centering
-	\includegraphics[width=\linewidth]{figures/gcnn_Delaunay-Prenoise_1cm-err.pdf}
-	\caption{
-	Scatter plot of the true positions of our algorithm's mis-reconstructions.
-	The red circle is the wall of the detector (50 cm); the black circle is the largest radius of the fiducial volume (43 cm).
-	Of the 197,975 simulated events, there were 1,680 mis-reconstructions which are shown here.
-	Within the fiducial volume, there were 123 out of 1,680.
-	}
-	\label{fig:1cm_Counts}
-\end{wrapfigure}
+After a few iterations of this, we chose to only look at the performance metrics if the GCNN model produced a lower mean-squared-error (MSE) during training and would restart training in cases where it was clear that the current iteration would not perform better within a reasonable number of epochs.
+An example of when it was clear a prospective model would not do better is if the MSE was not below $0.25$ cm\textsuperscript{2} within the first $50$ epochs.
 
 \par We used an optical Monte Carlo simulation of 989,875 events for training as an attempt to assume a “perfect” detector.
-This is to say that no spurious events, such as single electrons, dark counts, or PMT after-pulses, were within our simulation.
+This is to say that no spurious events were present within the simulation.
 The observations by the PMTs are as if every part of the detector ran perfectly.
 By using a simulation like this, we were able to input the data into our model without normalization or standardization.
 
-\par Our algorithm was able to outperform the state-of-the-art in training, which is a good indicator for the overall performance.
-Much of the work for this stage was in optimizing the learning rate used for gradient descent.
+\par Our algorithm was able to outperform the state-of-the-art in training, which was a good indicator for the overall performance.
+Much of the work for this stage was in optimizing the learning rate used during training.
 Our solution was to lower the learning rate at specific epochs based on the performance of  previous results.
 Specifically, the learning rate was lowered at epochs 20, 60, and 150.
 This caused notable dips within Figure \ref{fig:GCNN_Training} and resulted in a much smoother curve after epoch 20.
-However, a better solution would have the learning rate lower based on the model's performance during training instead of milestones set by the attentive user.
+However, a better solution would have the learning rate lower based on the model's performance during training instead of milestones set by the attentive researcher.
 
 \subsection{Validation Set Performance}\label{subsec:Valid}
 As previously stated, the two performance metrics we focused on are to have no reconstructions outside the detector and to minimize the number of reconstructions that are 1 cm away from the true position.
-For best practice in machine learning, we focused on the results of the validation set which is made of 197,975 simulated events.
+For best practice in machine learning \cite{Overfit-Bad}, we focused on the results of the validation set which is made of 197,975 simulated events.
 \begin{figure}[t]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
@@ -57,32 +46,43 @@ For best practice in machine learning, we focused on the results of the validati
 		\includegraphics[width=\textwidth]{figures/optsim_val_reco_pos.pdf}
 	\end{subfigure}
 	\caption{
-	2D histograms of the true positions (left) and reconstructed (right) positions at 150 bins.
-	Red circle is the wall of the detector (50 cm).
+	2D histograms of the true positions (left) and reconstructed positions (right) at 150 bins.
+	The red circle is the wall of the detector (50 cm).
 	The edge of the reconstructed positions is noticeably more jagged.
 	}
 	\label{fig:2D_Hists}
 \end{figure}
 
-\par Since we are hard set on having no reconstructions outside of the detector, this was the first metric we would check.
-As it turned out, we counted zero reconstructions outside of the detector for our latest version of the GCNN.
+\par First to check is if any reconstructions occurred outside of the detector.
+We counted zero reconstructions outside of the detector for our latest version of the GCNN.
 At this point, our algorithm has successfully surpassed the state-of-the-art training benchmark and made no exceedingly erroneous reconstructions, a rule that previous implementations had difficulty passing.
 
-\par As for the further than 1 cm reconstructions, these too performed well.
-Of the 197,975 events, 1,680 were reconstructed at greater than 1 cm away from the true position, about 0.85\% of the validation set.
+\par Second to check is the number of events that are reconstructed further than 1 cm from the true position.
+Of the 197,975 events in the validation set, 1,680 were reconstructed at greater than 1 cm away from the true position, or about 0.85\% of the set.
 As can be seen in Figure \ref{fig:1cm_Counts}, many of the mistakes are made along the walls of the detector and explains the jagged edge found in Figure \ref{fig:2D_Hists}.
-If we reduce the area we count on to the maximum radius of the fiducial volume ($R=43$ cm), we find only 123 of the 197,975 events mis-reconstructed, 0.06\% of the validation set.
+If we reduce the region we count on to within the fiducial volume ($R=43$ cm), we find 123 of the 197,975 events are mis-reconstructed, or about 0.06\% of the validation set.
 
-\par The last important performance check, as for any experiment, is to produce the most accurate measurements or reconstructions, in our case.
-For this we use the resolution metrics $\Delta X$, $\Delta Y$, and $\Delta R$:
+\par The last important metric we look at is the resolution of our reconstructions.
+For this we define the resolution metrics $\Delta X$, $\Delta Y$, and $\Delta R$:
 \begin{gather*}
 	\Delta X \equiv X_\text{Reconstructed} - X_\text{Simulated},
 	\quad \Delta Y \equiv Y_\text{Reconstructed} - Y_\text{Simulated}, \\
 	\quad \Delta R \equiv \sqrt{ \Delta X^2 + \Delta Y^2 }
 \end{gather*}
 where $X$ and $Y$ are the $x$ and $y$ positions of the reconstructions and the associated simulation.
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{figures/gcnn_Delaunay-Prenoise_1cm-err.pdf}
+	\caption{
+	Scatter plot of the true positions of our algorithm's mis-reconstructions.
+	The red circle is the wall of the detector (50 cm); the black circle is the largest radius of the fiducial volume (43 cm).
+	Of the 197,975 simulated events, there were 1,680 mis-reconstructions which are shown here.
+	Within the fiducial volume, there were 123 out of 1,680.
+	}
+	\label{fig:1cm_Counts}
+\end{wrapfigure}
 The means and standard deviations produced by our algorithm are shown in Figure \ref{fig:1D_Hist}.
-This too outperformed the state-of-the-art which had standard deviations greater than 3 cm.
+These results are competitive with the reconstructions of the state-of-the-art.
 From previous observations of the results of our GCNN, the mean and standard deviation of $\Delta R$ follows suit with what we expect: most of the reconstructions are within 1 cm of the true, simulated position.
 At the same time, the approximately-Gaussian curves of $\Delta X$, $\Delta Y$, and radius difference further confirms the positive performance of our GCNN.
 \begin{figure}[t]

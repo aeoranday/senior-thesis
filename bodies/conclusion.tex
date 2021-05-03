@@ -5,10 +5,9 @@ We presented the novel application of a graph neural network -- more specificall
 Our algorithm performed at a standard that is competitive with the state-of-the-art position reconstruction algorithm for XENON1T.
 However, we do not think that this algorithm is the best approach to take in the future.
 We suspect that a broader graph neural network would work better for position reconstruction for the upcoming XENONnT experiment.
-The use of a graph neural network has shown the ability to maintain locality between PMTs, our graph's nodes, but is not attributed to the use of convolutions.
-We believe there is a better approach that can be more specific to the XENON1T detector that does not necessarily use convolutions.
-The problem we realized when applying to experimental data is the overbearing presence of background events.
-At the same time, broken PMTs clearly produce a negative influence on the position reconstruction.
+The use of a graph neural network has shown the ability to maintain locality between PMTs, our graph's nodes, but is not attributed to the use of this specific graph convolution.
+We believe an alternative graph convolution layer would perform better, but also suspect that a graph convolution layer may not be necessary for the model to perform well.
+The effects of broken PMTs clearly produce a negative influence on the position reconstruction and indicate their importance during training.
 
 \par We have shown that graph neural networks are applicable to particle physics detectors.
 They are able to preserve the locality of sensors in the detector when necessary for the application.
