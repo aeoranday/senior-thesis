@@ -10,27 +10,6 @@ For this reason, it is relevant for us to try alternative neural networks that h
 
 \par For our problem, the input layer will be the signal seen by the PMTs in the top array of the detector, and the output layer will be the $(x,y)$ position of the interaction.
 We are mainly concerned with graph convolutional neural networks (GCNNs) which are a result of the success with convolutional neural networks (CNNs) \cite{GCNN_Kipf}.
-\begin{figure}[t]
-	\centering
-	\begin{subfigure}{0.32\textwidth}
-		\includegraphics[width=\textwidth]{figures/1T_radius-graph_R10.pdf}
-		\caption{}
-	\end{subfigure}
-	\begin{subfigure}{0.32\textwidth}
-		\includegraphics[width=\textwidth]{figures/1T_kNN-graph_k6.pdf}
-		\caption{}
-	\end{subfigure}
-	\begin{subfigure}{0.32\textwidth}
-		\includegraphics[width=\textwidth]{figures/1T_delaunay-graph.pdf}
-		\caption{}
-	\end{subfigure}
-	\caption{
-	Three of the considered graph structures: Radius $R=10$ cm neighbors (a), $k$-nearest-neighbors $k=6$ (b), Delaunay triangulation neighbors (c).
-	Each node here is a photomultiplier tube in the top array of the XENON1T detector.
-	The positions of each tube in the detector was used for each of the explored graph structure approaches.
-	}
-	\label{fig:graph_structs}
-\end{figure}
 \subsection{Convolutional Neural Networks}\label{subsec:CNN}
 A convolutional neural network is a specific kind of neural network that features a convolution layer and a pooling layer \cite{deep-learning}.
 The input to a CNN frequently comes in the form of a matrix where there is a locality between the elements in the matrix \cite{deep-learning}.
@@ -100,6 +79,21 @@ Continuing the propagation, results in graph in Figure \ref{fig:prop-ex-2} and o
 The nodes nearest the initially high value node will also become high in value, while nodes that are further away will have a lesser value.
 Nodes that are completely disconnected will see no changes.
 
+\begin{figure}[t]
+	\centering
+	\begin{subfigure}{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/elu.pdf}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.49\textwidth}
+		\includegraphics[width=\textwidth]{figures/relu.pdf}
+	\end{subfigure}
+	\caption{
+	Plots of an Exponential Linear Unit (ELU) and the Rectified Linear Unit (ReLU).
+	We use ReLU activation functions in our network structure.
+	}
+	\label{fig:relu-elu}
+\end{figure}
 \par We considered the PMTs of the XENON1T detector as our nodes and their quantity of light collected as their primary value.
 We also included the $(x,y)$ position of the PMT at the top of the detector as addition values.
 These positions are intended to provide additional weighting when learning, but the quantity of light collected will be the main factor in reconstructing the positions of events.
@@ -113,10 +107,41 @@ The use of exponential linear units would not provide this strict cut off.
 
 \par With regard to the network structure, we were influenced by the success of image classifiers, such as AlexNet \cite{AlexNet}.
 However, convolutional neural networks of this structure and graph convolutional neural networks in general are more often used for classification, while we have a regression problem.
-Our reasoning to use a GCNN for reconstructing the position of interactions came from being able to encode the local structure of the XENON1T detector into the dataset.
+
+\par Our reasoning to use a GCNN for reconstructing the position of interactions came from being able to encode the local structure of the XENON1T detector into the dataset.
 By treating the nodes of our graph as the PMTs at the top of the detector, we understood that the connections or edges that we put in place would maintain the local structure if done carefully.
-We considered several graph structures shown in Figure \ref{fig:graph_structs}.
-We ultimately chose the Delaunay Triangulated graph for it's consistent connection density throughout the graph: only PMTs that are immediately near each other are connected and resulted in most nodes having 6 edges.
-Only nodes that represent PMTs near the wall of the detector had degrees less than 6.
-There is potential for finding the graph structure that describes the detector's data best, but for this we chose to go with a heuristic approach.
+
+\par We considered several graph structures shown in Figure \ref{fig:graph_structs}.
+We ultimately chose the Delaunay triangulated graph Figure \ref{fig:del-graph}.
+Delaunay triangulation is a specific triangulation method that makes use of the circumcircles of the triangles it creates.
+These circumcircles are required to not contain the vertex of any other triangle in the set \cite{Delaunay}.
+Therefore, the connected triangles should occur between nearby points and created the triangulation that we expected and chose to use \cite{Delaunay}.
+
+\begin{figure}[t]
+	\centering
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width=\textwidth]{figures/1T_radius-graph_R10.pdf}
+		\caption{}
+		\label{fig:R-graph}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width=\textwidth]{figures/1T_kNN-graph_k6.pdf}
+		\caption{}
+		\label{fig:knn-graph}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width=\textwidth]{figures/1T_delaunay-graph.pdf}
+		\caption{}
+		\label{fig:del-graph}
+	\end{subfigure}
+	\caption{
+	Three of the considered graph structures: Radius $R=10$ cm neighbors (a), $k$-nearest-neighbors $k=6$ (b), Delaunay triangulation neighbors (c).
+	Each node here is a photomultiplier tube in the top array of the XENON1T detector.
+	The positions of each tube in the detector was used for each of the explored graph structure approaches.
+	}
+	\label{fig:graph_structs}
+\end{figure}
+\par This triangulation created a consistent connection density throughout the graph: only PMTs that are immediately near each other are connected and resulted in most nodes having 6 edges.
+Only nodes that represent PMTs near the wall of the detector had a degree less than 6.
+There is potential for finding the graph structure that describes the detector's data best on certain metrics, but for this paper we chose to use the Delaunay triangulated graph as a heuristic.
 \end{document}
